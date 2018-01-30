@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/stats_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_count"
+        android:layout_marginTop="11dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/stats_count_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/stats_recycler_view"
+        android:layout_alignStart="@id/stats_recycler_view"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/stats_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        android:layout_alignBaseline="@+id/stats_count_label"
+        android:layout_alignBottom="@+id/stats_count_label"
+        android:layout_toEndOf="@id/stats_count_label"
+        android:layout_toRightOf="@id/stats_count_label"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp" />
+
+
+</RelativeLayout>

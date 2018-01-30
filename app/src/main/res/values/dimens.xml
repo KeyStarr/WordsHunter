@@ -1,0 +1,18 @@
+<resources>
+    <dimen name="standard_card_corner_radius">5dp</dimen>
+    <dimen name="outer_card_content_padding">5dp</dimen>
+    <dimen name="inner_card_content_padding">5dp</dimen>
+
+
+    <dimen name="words_recycler_padding">4dp</dimen>
+    <dimen name="words_recycler_left_right_margin">15dp</dimen>
+    <dimen name="words_recycler_item_card_margin">4dp</dimen>
+    <dimen name="words_recycler_item_text_padding">10dp</dimen>
+
+    <dimen name="ld_side_margin">22dp</dimen>
+    <dimen name="ld_side_cb_margin">16dp</dimen>
+
+    <dimen name="cards_groups_between_margin">2dp</dimen>
+    <dimen name="cards_words_between_margin">2dp</dimen>
+    <dimen name="words_fab_margin">6dp</dimen>
+</resources>

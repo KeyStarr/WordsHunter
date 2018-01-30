@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="WORD_CARD_TAG_WORD" type="id" />
+    <item name="WORD_CARD_TAG_GROUP" type="id" />
+</resources>

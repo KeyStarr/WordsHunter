@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="add_new_dialog_items_list">
+        <item>@string/add_new_dialog_list_item_word</item>
+        <item>@string/add_new_dialog_list_item_group</item>
+    </string-array>
+</resources>

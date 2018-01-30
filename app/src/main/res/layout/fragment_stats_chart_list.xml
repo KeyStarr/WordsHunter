@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.keystarr.wordshunter.ui.stats.StatsChartListFragment"
+    android:background="@color/main_screens_background">
+
+    <!-- EXTRACT ALL ADDITIONAL PARAMS TO STYLES (EXCEPT WIDTH AND HEIGHT !-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/days_line_chart"
+        android:layout_width="534dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/stats_recycler_root"
+        layout="@layout/stats_recycler_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/days_line_chart"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/data_load_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true" />
+
+</RelativeLayout>

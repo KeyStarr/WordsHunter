@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#222222</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#bc5cba</color>
+    <color name="outer_card_background">#d9dede</color>
+    <color name="greyed_button">#aaa</color>
+    <color name="main_screens_background">#ffffff</color>
+    <color name="fab_ripple">#ff3300</color>
+</resources>

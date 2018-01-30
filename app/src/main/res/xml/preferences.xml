@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:title="@string/settings_daily_stats_checkbox_title"
+        android:summary="@string/settings_daily_stats_checkbox_content"
+        android:defaultValue="true"
+        android:key="prefs_is_daily_reports" />
+
+    <CheckBoxPreference
+        android:title="@string/settings_disabled_checkbox_title"
+        android:summary="@string/settings_disabled__checkbox_content"
+        android:defaultValue="true"
+        android:key="prefs_is_alarm_service_disabled" />
+</PreferenceScreen>
