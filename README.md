@@ -36,3 +36,7 @@ And some others which were used to make tutorials/UI components.
 In this app I made a strong use of **Services, Accessibility Service, Broadcast Receivers, Notifications**. 
 
 For the database SQLite was chosen, although the first versions of this app used Realm (change was made in value of the apk's size decrease).
+
+#### Challenges
+- For the "Words" screen i had to make a feature that would enable user to drag a word from it's current group to any other group. Simple as it seems it turned to be a nightmare since no information could i found which would cover the topic completely. So, i had to develop my own solution to this problem which occured to be - dragging an element from the current recycler view to any other recycler view of the parent's recycler view.
+- To develop a good UX on the "Stats" screen i also had to work hard on the prototype and then on the realization of the scrollable chart, nodes(points) of which would be triggers for the stats information to update for the corresponding day/week.
