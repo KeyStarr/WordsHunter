@@ -5,7 +5,7 @@ This app is my second big project and it is built upon a fairly unique concept. 
 
 There is one more noticeable point - unfortunately, when i had almost finished the app, Google decided that the Accessibility Services [must only be used to aid users with disabilities](https://www.xda-developers.com/google-threatening-removal-accessibility-services-play-store/). Since my app uses such a service to analyze messages and thus to help all the users, the road to the Play Market for it was forever closed.
 
-In spite of that obstacle i figured how to use my work and modified original app to the aid of the linguistic research which lasts in present.   
+In spite of that obstacle i figured how to use my work and modified the original app to the aid of the linguistic research which lasts in present.   
 
 ### Functionality
 This app is the ultimate words's tracker or the "Words Hunter". 
@@ -38,5 +38,5 @@ In this app I made a strong use of **Services, Accessibility Service, Broadcast 
 For the database SQLite was chosen, although the first versions of this app used Realm (change was made in value of the apk's size decrease).
 
 #### Challenges
-- For the "Words" screen i had to make a feature that would enable user to drag a word from it's current group to any other group. Simple as it seems it turned to be a nightmare since no information could i found which would cover the topic completely. So, i had to develop my own solution to this problem which occured to be - dragging an element from the current recycler view to any other recycler view of the parent's recycler view.
+- For the "Words" screen i had to make a feature that would enable user to drag a word from it's current group to any other group. Simple as it may seem it turned out to be a nightmare since no information could i found which would cover the task completely. So i had to develop my own solution to this problem which occured to be - dragging an element from the current recycler view to any other recycler view of the parent's recycler view.
 - To develop a good UX on the "Stats" screen i also had to work hard on the prototype and then on the realization of the scrollable chart, nodes(points) of which would be triggers for the stats information to update for the corresponding day/week.
