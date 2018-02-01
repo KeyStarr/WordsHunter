@@ -25,7 +25,7 @@ public class SetUpGuideActivity extends AppIntro {
                 SetUpGuidePageFragment.newInstance(
                         getString(R.string.set_up_tutorial_step1),
                         getString(R.string.set_up_tutorial_page2),
-                        R.drawable.tut1);
+                        R.drawable.tut1c);
         SetUpGuidePageFragment page3 =
                 SetUpGuidePageFragment.newInstance(
                         getString(R.string.set_up_tutorial_step2),

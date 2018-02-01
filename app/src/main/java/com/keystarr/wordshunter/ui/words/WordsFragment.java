@@ -373,16 +373,16 @@ public class WordsFragment extends Fragment implements ButtonsPanelListener, Gro
 
 
     private void showLimiterStateChangedSnackbar(String name, int state) {
-        String message = "Лимит для \"" + name + "\" ";
+        String message = getString(R.string.limit_toast_base,name);
         switch (state) {
             case 0:
-                message += "установлен!";
+                message += getString(R.string.limit_toast_created);
                 break;
             case 1:
-                message += "изменён!";
+                message += getString(R.string.limit_toast_changed);
                 break;
             case 2:
-                message += "удалён!";
+                message += getString(R.string.limit_toast_removed);
                 break;
         }
         Snackbar.make(groupsRecyclerView, message, Snackbar.LENGTH_SHORT).show();

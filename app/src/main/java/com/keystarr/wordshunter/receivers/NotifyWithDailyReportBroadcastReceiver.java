@@ -79,7 +79,7 @@ public class NotifyWithDailyReportBroadcastReceiver extends BroadcastReceiver {
             description = new SpannedString(context.getString(R.string.nothing_caught));
         } else {
             Spannable descWordsCaught = new SpannableString(
-                    context.getString(R.string.words_catched, wordCount));
+                    context.getString(R.string.words_caught, wordCount));
             //makePartOfSpannableWhite(descWordsCaught, wordCount);
             Spannable descLimitsReached = new SpannableString(
                     context.getString(R.string.limits_reached, limitsReached));
