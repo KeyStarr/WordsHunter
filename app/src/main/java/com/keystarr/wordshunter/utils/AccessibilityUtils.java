@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public final class AccessibilityUtils {
-    private static final String SERVICE_ID = "com.keystarr.wordshunter/.services.KeyGetService";
+    private static final String SERVICE_ID = "com.keystarr.wordshunter/.services.WordsHunterService";
 
     private AccessibilityUtils() {
     }

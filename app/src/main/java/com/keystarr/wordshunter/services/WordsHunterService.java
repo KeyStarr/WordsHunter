@@ -42,14 +42,11 @@ import javax.inject.Inject;
 import static android.support.v4.app.NotificationCompat.DEFAULT_ALL;
 import static com.keystarr.wordshunter.utils.DateUtils.getCurrentDayDateInMillis;
 
-public class KeyGetService extends AccessibilityService {
+public class WordsHunterService extends AccessibilityService {
     //TODO: potential bug: if day was reverted to day that was in stats
     //and there were some wordCounters on track that are not present or disabled in current list
     //they are still gonna be counted
 
-    //TODO: rename to the "Ловец слов"
-
-    private static final String APP_PACKAGE = "com.example.bizarre.bindaccess";
 
     public static final int NOTIFICATION_ID_LIMIT_REACHED = 111;
 
@@ -235,7 +232,7 @@ public class KeyGetService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        if (!event.getText().isEmpty() && !event.getPackageName().equals(APP_PACKAGE)) {
+        if (!event.getText().isEmpty()) {
             String bText = null;
             if (event.getBeforeText() != null) //can be null
                 bText = event.getBeforeText().toString();
@@ -245,8 +242,12 @@ public class KeyGetService extends AccessibilityService {
 
             //approximately catching the sending of the previous message
             //and the starting of the new one to count the words
-            if ("".equals(bText)) {
-                countWordsInMessage(bufferedText);
+            if ("".equals(bText) && bufferedText != null) {
+                bufferedText += ' ';//for getting the last word
+                countAmountOfWordsInMessage(bufferedText);
+                countTheLastWord(bufferedText);//regular scanning does not count the last word
+                //because it can be a part of a not finished word
+                //so only when the message was sent we can safely check it
                 bufferedText = "";
                 dtbRepo.update(dayDtb);
             }
@@ -257,8 +258,7 @@ public class KeyGetService extends AccessibilityService {
         }
     }
 
-    private void countWordsInMessage(String message) {
-        message += ' ';//for getting the last word
+    private void countAmountOfWordsInMessage(String message) {
         String word = "";
         for (int i = 0; i < message.length(); i++) {
             char c = message.charAt(i);
@@ -267,6 +267,18 @@ public class KeyGetService extends AccessibilityService {
             } else if (!"".equals(word))
                 dayDtb.incrementWordsTypedCounter();
         }
+    }
+
+    private void countTheLastWord(String message){
+        StringBuilder word = new StringBuilder();
+        char c = 0;
+        for (int i = message.length() - 2; c != ' '; i--){
+            c = message.charAt(i);
+            word.append(c);
+        }
+        for (WordsCountersGroup countersGroup : dayDtb.getWordsCountersGroupsList())
+            if (findAndCountOccurrenceOfWordInGroup(countersGroup, word.toString()))
+                return;
     }
 
     private void initializeDayIfDateChangedInRuntime() {
@@ -287,15 +299,15 @@ public class KeyGetService extends AccessibilityService {
     //It means that the counters with equal names must stand on the same positions across these lists
     //This was made in value of performance increasing
 
-    private void analyzeTextForOccurrences(String mText) {
-        List<WordsCountersGroup> currentWordsCountersGroups = countOccurrences(mText);
+    private void analyzeTextForOccurrences(String text) {
+        List<WordsCountersGroup> currentWordsCountersGroups = countOccurrences(text);
 
         //this situation is really rare to happen (in fact it has been registered only once)
         //but if it happens, then the whole system is compromised and we are obliged to fix it
         if (currentWordsCountersGroups.size() != bufferedWordsCountersGroups.size()) {
             bufferedWordsCountersGroups = currentWordsCountersGroups;
             Answers.getInstance().logCustom(
-                    new CustomEvent("KeyGetService => analyze text => " +
+                    new CustomEvent("WordsHunterService => analyze text => " +
                             "buffered and current groups list size mismatch")
                             .putCustomAttribute("BufferedWordCountersList size", currentWordsCountersGroups.size())
                             .putCustomAttribute("CurrentWordCountersList size", bufferedWordsCountersGroups.size())
@@ -314,7 +326,7 @@ public class KeyGetService extends AccessibilityService {
             if (currentWordsCountersList.size() != bufferedWordsCountersList.size()) {
                 bufferedWordsCountersGroups = currentWordsCountersGroups;
                 Answers.getInstance().logCustom(
-                        new CustomEvent("KeyGetService => analyze text => " +
+                        new CustomEvent("WordsHunterService => analyze text => " +
                                 "buffered and current counters list size mismatch")
                                 .putCustomAttribute("BufferedWordCountersList size", bufferedWordsCountersList.size())
                                 .putCustomAttribute("CurrentWordCountersList size", currentWordsCountersList.size())
@@ -349,7 +361,6 @@ public class KeyGetService extends AccessibilityService {
     private List<WordsCountersGroup> countOccurrences(String text) {
         List<WordsCountersGroup> currentWordsCountersGroup = new ArrayList<>();
         initializeWordsGroupCountersList(currentWordsCountersGroup);
-        text += ' ';//for getting the last word
         String temporary = "";
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);

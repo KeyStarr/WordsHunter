@@ -27,7 +27,7 @@
         </activity>
 
         <service
-            android:name=".services.KeyGetService"
+            android:name=".services.WordsHunterService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <meta-data
                 android:name="android.accessibilityservice"

@@ -3,7 +3,7 @@ package com.keystarr.wordshunter.di;
 import com.keystarr.wordshunter.receivers.NotifyWithDailyReportBroadcastReceiver;
 import com.keystarr.wordshunter.receivers.OnBootReceiversRiserBroadcastReceiver;
 import com.keystarr.wordshunter.receivers.SendStatsBroadcastReceiver;
-import com.keystarr.wordshunter.services.KeyGetService;
+import com.keystarr.wordshunter.services.WordsHunterService;
 import com.keystarr.wordshunter.ui.MainActivity;
 import com.keystarr.wordshunter.ui.home.HomeFragment;
 import com.keystarr.wordshunter.ui.home.PreferencesFragment;
@@ -22,7 +22,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
-    void inject(KeyGetService service);
+    void inject(WordsHunterService service);
 
     void inject(HomeFragment homeFragment);
 
