@@ -18,7 +18,6 @@ public class DayDtb implements Comparable<DayDtb> {
     private long date;
     private int weekInYear;
     private List<WordsCountersGroup> wordsGroupsList;
-    private boolean sent;
     private int wordsTypedCounter;
 
     private DayDtb(long date, int weekInYear,
@@ -26,16 +25,6 @@ public class DayDtb implements Comparable<DayDtb> {
         this.date = date;
         this.weekInYear = weekInYear;
         this.wordsGroupsList = wordsGroupsList;
-        this.sent = false;
-        this.wordsTypedCounter = wordsTypedCounter;
-    }
-
-    private DayDtb(long date, int weekInYear, List<WordsCountersGroup> wordsGroupsList,
-                   boolean sent, int wordsTypedCounter) {
-        this.date = date;
-        this.weekInYear = weekInYear;
-        this.wordsGroupsList = wordsGroupsList;
-        this.sent = sent;
         this.wordsTypedCounter = wordsTypedCounter;
     }
 
@@ -53,10 +42,9 @@ public class DayDtb implements Comparable<DayDtb> {
     }
 
 
-    public static DayDtb createForRetrieve(long date, int weekInYear,
-                                           boolean sent, int wordsTypedCounter) {
+    public static DayDtb createForRetrieve(long date, int weekInYear, int wordsTypedCounter) {
         DayDtb dayDtb = new DayDtb(date, weekInYear,
-                new ArrayList<WordsCountersGroup>(), sent, wordsTypedCounter);
+                new ArrayList<WordsCountersGroup>(), wordsTypedCounter);
         dayDtb.setWordsCounterGroupsList(new ArrayList<WordsCountersGroup>());
         return dayDtb;
     }
@@ -137,14 +125,6 @@ public class DayDtb implements Comparable<DayDtb> {
 
     public void setWeekInYear(int weekInYear) {
         this.weekInYear = weekInYear;
-    }
-
-    public boolean isSent() {
-        return sent;
-    }
-
-    public void setSent(boolean sent) {
-        this.sent = sent;
     }
 
     public int getWordsTypedCounter() {

@@ -2,7 +2,6 @@ package com.keystarr.wordshunter.di;
 
 import com.keystarr.wordshunter.receivers.NotifyWithDailyReportBroadcastReceiver;
 import com.keystarr.wordshunter.receivers.OnBootReceiversRiserBroadcastReceiver;
-import com.keystarr.wordshunter.receivers.SendStatsBroadcastReceiver;
 import com.keystarr.wordshunter.services.WordsHunterService;
 import com.keystarr.wordshunter.ui.MainActivity;
 import com.keystarr.wordshunter.ui.home.HomeFragment;
@@ -37,8 +36,6 @@ public interface AppComponent {
     void inject(MainActivity mainActivity);
 
     void inject(NotifyWithDailyReportBroadcastReceiver reportSendReceiver);
-
-    void inject(SendStatsBroadcastReceiver statsSendReceiver);
 
     void inject(OnBootReceiversRiserBroadcastReceiver statsSendReceiver);
 }

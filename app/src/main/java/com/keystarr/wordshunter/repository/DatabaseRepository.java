@@ -20,8 +20,6 @@ public interface DatabaseRepository {
 
     List<DayDtb> getDaysSortByDateAscending();
 
-    List<DayDtb> getAllUnsentDays();
-
     List<DayDtb> getWeek(int weekInYear);
 
     DayDtb getCurrentDay();

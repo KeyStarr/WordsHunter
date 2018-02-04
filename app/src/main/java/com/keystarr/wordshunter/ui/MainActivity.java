@@ -56,10 +56,6 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         registerBroadcastReceivers();
         if (prefsRepo.isKeyServiceFirstLaunch()) {
-            //the protection mechanism of re-registering receivers
-            //registering won't be done every time app opens except the first time
-            prefsRepo.setSendDaysReceiverCalledLast(DateUtils.getCurrentDayDateInMillis());
-
             PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
             Intent intent = new Intent(this, SetUpActivity.class);
             intent.putExtra(INTENT_DATA_FIRST_LAUNCH, true);
@@ -88,18 +84,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void registerBroadcastReceivers() {
-        boolean sendDaysHighFrequencyCall = prefsRepo.isSendDaysReceiverCallFrequencyHigh();
-        long nowTime = Instant.now().toEpochMilli();
-        if (!sendDaysHighFrequencyCall
-                && nowTime - prefsRepo.getSendDaysReceiverCalledLast() > 104400000) {
-            //if didnt work for past 29 hours - re-register
-            BroadcastReceiversRegisteringUtils
-                    .registerAlarmMngForSendDaysStats(this, false);
-        } else if (nowTime - prefsRepo.getSendDaysReceiverCalledLast() > 14827049) {
-            //if didnt work for 4.11 hours - re-register
-            BroadcastReceiversRegisteringUtils
-                    .registerAlarmMngForSendDaysStats(this, true);
-        }
         if (prefsRepo.isCheckServiceDisabled())
             BroadcastReceiversRegisteringUtils.registerAlarmMngForServiceDisabledCheck(this);
         if (prefsRepo.isSendDailyReports())

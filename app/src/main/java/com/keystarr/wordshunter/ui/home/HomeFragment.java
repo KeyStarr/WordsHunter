@@ -82,8 +82,6 @@ public class HomeFragment extends Fragment {
         App.getApp(this).getAppComponent().inject(this);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-        if (!prefsRepo.isPersonalDataGiven())
-            LovelyDialogFactory.createPersonalDataDialog(getContext(), prefsRepo).show();
         setToolbar();
         return view;
     }

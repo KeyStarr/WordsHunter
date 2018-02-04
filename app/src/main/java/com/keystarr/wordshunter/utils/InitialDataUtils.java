@@ -24,26 +24,7 @@ public final class InitialDataUtils {
             {"Паразиты", "Неуверенность", "Связки",
                     "Заимствования", "Разочарование", "Сокращения"};
 
-    private static HashSet<String> defaultWordsForSearching;
-    private static HashSet<String> defaultGroupsForSearching;
-
-    static {
-        defaultWordsForSearching = new HashSet<>();
-        defaultWordsForSearching.addAll(Arrays.asList(defaultWords));
-        defaultGroupsForSearching = new HashSet<>();
-        defaultGroupsForSearching.addAll(Arrays.asList(defaultGroups));
-    }
-
     private InitialDataUtils() {
-    }
-
-
-    public static boolean isWordOnResearch(String word) {
-        return defaultWordsForSearching.contains(word);
-    }
-
-    public static boolean isGroupOnResearch(String group) {
-        return defaultGroupsForSearching.contains(group);
     }
 
     public static List<WordsGroupToTrack> initializeWordsGroupsToTrackListFromDefaults(Context context) {

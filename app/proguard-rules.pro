@@ -34,17 +34,10 @@
     @com.squareup.otto.Produce public *;
 }
 
-# Platform calls Class.forName on types which do not exist on Android to determine platform.
--dontnote retrofit2.Platform
-# Platform used when running on Java 8 VMs. Will not be used at runtime.
--dontwarn retrofit2.Platform$Java8
 # Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
-
-#for Okio which powers Retrofit
--dontwarn okio.**
 
 # Retain generated class which implement Unbinder.
 -keep public class * implements butterknife.Unbinder { public <init>(**, android.view.View); }
@@ -57,18 +50,3 @@
 
 #For MPChart animations to work
 -keep class com.github.mikephil.charting.** { *; }
-
-# Gson specific classes
--dontwarn sun.misc.**
-#-keep class com.google.gson.stream.** { *; }
-
-#FOR GSON AND RETROFIT TO UNDERSTAND MODELS AS IS WE NEED TO PRESERVE THEM FROM THE OBFUSCATION
--keep class com.keystarr.wordshunter.models.** { *; }
-
-# Prevent proguard from stripping interface information from TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
-##---------------End: proguard configuration for Gson  ----------

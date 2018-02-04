@@ -42,8 +42,8 @@ public class DatabaseRepositorySQLite implements DatabaseRepository {
                     "ORDER BY wordsCountersGroups._id ";
 
     private static final String QUERY_SELECT_WEEK_OF_DAYS_ASC =
-            "SELECT days.date,days.wordsTypedCounter,days.weekInYear,days.sent," +
-                    "wordsCountersGroups.name,wordsCounters.word,wordsCounters.count, wordsCounters.isTracked " +
+            "SELECT days.date,days.wordsTypedCounter,days.weekInYear,wordsCountersGroups.name," +
+                    "wordsCounters.word,wordsCounters.count, wordsCounters.isTracked " +
                     "FROM days,wordsCountersGroups,wordsCounters " +
                     "WHERE days.weekInYear = ?" +
                     "AND wordsCountersGroups.dayDate=days.date " +
@@ -51,15 +51,16 @@ public class DatabaseRepositorySQLite implements DatabaseRepository {
                     "ORDER BY days.date, wordsCountersGroups._id";
 
     private static final String QUERY_SELECT_ALL_DAYS_ASC =
-            "SELECT days.date,days.wordsTypedCounter,days.weekInYear, days.sent," +
-                    " wordsCountersGroups.name,wordsCounters.word,wordsCounters.count, wordsCounters.isTracked " +
+            "SELECT days.date,days.wordsTypedCounter,days.weekInYear,wordsCountersGroups.name, " +
+                    "wordsCounters.word,wordsCounters.count, wordsCounters.isTracked " +
                     "FROM days,wordsCountersGroups,wordsCounters " +
                     "WHERE %1$s wordsCountersGroups.dayDate=days.date " +
                     "AND wordsCounters.groupId=wordsCountersGroups._id " +
                     "ORDER BY days.date, wordsCountersGroups._id %2$s";
 
     private static final String QUERY_SELECT_ALL_WORDS_TO_TRACK_GROUPS =
-            "SELECT wordsToTrackGroup.name, wordsToTrackGroup.groupListPos, wordsToTrack.word, wordsToTrack.isTracked, wordsToTrack.wordListPos " +
+            "SELECT wordsToTrackGroup.name, wordsToTrackGroup.groupListPos, wordsToTrack.word, " +
+                    "wordsToTrack.isTracked, wordsToTrack.wordListPos " +
                     "FROM wordsToTrack, wordsToTrackGroup " +
                     "WHERE wordsToTrack.groupName=wordsToTrackGroup.name%1$s " +
                     "ORDER BY%2$s";
@@ -122,19 +123,6 @@ public class DatabaseRepositorySQLite implements DatabaseRepository {
                 toModelsMapper.fromManyDays(cursor);
         cursor.close();
         return daysList;
-    }
-
-    @Override
-    public List<DayDtb> getAllUnsentDays() {
-        long currentDate = DateUtils.getCurrentDayDateInMillis();
-        String query = String.format(QUERY_SELECT_ALL_DAYS_ASC,
-                "days.sent = 0 AND days.date != " + currentDate + " AND",
-                "");
-        Cursor cursor = database.rawQuery(query, new String[]{});
-        List<DayDtb> unsentDaysList =
-                toModelsMapper.fromManyDays(cursor);
-        cursor.close();
-        return unsentDaysList;
     }
 
     @Override
@@ -242,7 +230,8 @@ public class DatabaseRepositorySQLite implements DatabaseRepository {
     private DayDtb getEmptyDay(long date) {
         Cursor cursor = database.query(
                 DaysTable.TABLE_NAME,
-                new String[]{DaysTable.COLUMN_NAME_DATE, DaysTable.COLUMN_NAME_WEEK_IN_YEAR, DaysTable.COLUMN_NAME_SENT},
+                new String[]{DaysTable.COLUMN_NAME_DATE, DaysTable.COLUMN_NAME_WORDS_TYPED_COUNTER,
+                        DaysTable.COLUMN_NAME_WEEK_IN_YEAR},
                 DaysTable.COLUMN_NAME_DATE + " = ?",
                 new String[]{String.valueOf(date)},
                 null, null, null);

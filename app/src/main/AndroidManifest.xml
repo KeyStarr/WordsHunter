@@ -65,14 +65,6 @@
             android:name=".receivers.NotifyWithDailyReportBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
-        <receiver
-            android:name=".receivers.SendStatsBroadcastReceiver"
-            android:enabled="true"
-            android:exported="false" />
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value=FABRIC_API_KEY />
 
         <activity android:name=".ui.set_up.IntroActivity" />
     </application>

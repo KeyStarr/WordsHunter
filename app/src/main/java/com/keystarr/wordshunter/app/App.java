@@ -6,13 +6,11 @@ import android.app.Service;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.crashlytics.android.Crashlytics;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.keystarr.wordshunter.di.AppComponent;
 import com.keystarr.wordshunter.di.AppModule;
 import com.keystarr.wordshunter.di.DaggerAppComponent;
 
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Cyril on 02.08.2017.
@@ -39,7 +37,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
         appComponent = DaggerAppComponent
                 .builder()
                 .appModule(new AppModule(this))

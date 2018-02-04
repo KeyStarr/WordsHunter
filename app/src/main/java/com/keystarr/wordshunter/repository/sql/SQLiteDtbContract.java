@@ -15,15 +15,13 @@ public final class SQLiteDtbContract {
         public static final String TABLE_NAME = "days";
         public static final String COLUMN_NAME_DATE = "date";
         public static final String COLUMN_NAME_WEEK_IN_YEAR = "weekInYear";
-        public static final String COLUMN_NAME_SENT = "sent";
         public static final String COLUMN_NAME_WORDS_TYPED_COUNTER = "wordsTypedCounter";
 
         public static final String SQL_CREATE_DAY_DTB_TABLE =
                 "CREATE TABLE " + DaysTable.TABLE_NAME + " (" +
                         COLUMN_NAME_DATE + " INTEGER UNIQUE NOT NULL," +
                         COLUMN_NAME_WEEK_IN_YEAR + " INTEGER," +
-                        COLUMN_NAME_WORDS_TYPED_COUNTER + " INTEGER," +
-                        COLUMN_NAME_SENT + " INTEGER)";
+                        COLUMN_NAME_WORDS_TYPED_COUNTER + " INTEGER)";
     }
 
     public static class WordsCountersGroupsTable implements BaseColumns {

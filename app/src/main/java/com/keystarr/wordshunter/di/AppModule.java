@@ -1,7 +1,6 @@
 package com.keystarr.wordshunter.di;
 
 import com.keystarr.wordshunter.app.App;
-import com.keystarr.wordshunter.network.StatsReceiverAPI;
 import com.keystarr.wordshunter.repository.DatabaseRepository;
 import com.keystarr.wordshunter.repository.PreferencesRepository;
 import com.keystarr.wordshunter.repository.sql.DatabaseRepositorySQLite;
@@ -11,8 +10,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Cyril on 02.08.2017.
@@ -42,15 +39,5 @@ public class AppModule {
     @Singleton
     public PreferencesRepository providePrefsRepo() {
         return new PreferencesRepository(app);
-    }
-
-    @Provides
-    @Singleton
-    public StatsReceiverAPI provideStatsReceiverAPI() {
-        return new Retrofit.Builder()
-                .baseUrl(LINK_TO_SERVER)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(StatsReceiverAPI.class);
     }
 }

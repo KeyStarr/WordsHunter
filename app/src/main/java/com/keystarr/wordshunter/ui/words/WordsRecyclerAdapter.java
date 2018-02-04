@@ -43,7 +43,6 @@ public class WordsRecyclerAdapter extends RecyclerView.Adapter {
     private String groupName;
     private RecyclerWordsOnCustomDragEventListener dragListener;
     private DatabaseRepository dtbRepo;
-    private Toast wordNotChangeableToast;
 
     public WordsRecyclerAdapter(ButtonsPanelListener buttonsPanelListener, String groupName,
                                 List<WordToTrack> wordsToTrack, DatabaseRepository dtbRepo) {
@@ -167,14 +166,6 @@ public class WordsRecyclerAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, view);
         }
 
-        private void showNotChangeableWordToast(int msgResId) {
-            if (wordNotChangeableToast != null)
-                wordNotChangeableToast.cancel();
-            Context context = cardRoot.getRootView().getContext();
-            wordNotChangeableToast = Toast.makeText(context, msgResId, Toast.LENGTH_LONG);
-            wordNotChangeableToast.show();
-        }
-
         @OnClick(R.id.word_card)
         public void wordCardOnClick() {
             buttonsExpandable.toggle();
@@ -182,48 +173,39 @@ public class WordsRecyclerAdapter extends RecyclerView.Adapter {
 
         @OnLongClick(R.id.word_card)
         public boolean wordCardOnLongClick(View view) {
-            if (!InitialDataUtils.isWordOnResearch(wordText.getText().toString())) {
-                cardRoot.setVisibility(View.INVISIBLE);
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(cardRoot);
-                WordToTrack wordToTrack = wordsToTrack.get(getAdapterPosition());
-                Bundle bundle = new Bundle();
-                bundle.putString("word", wordToTrack.getWord());
-                bundle.putString("group", wordToTrack.getGroupName());
-                bundle.putInt("pos", getAdapterPosition());
-                bundle.putBoolean("isTracked", wordToTrack.isTracked());
-                bundle.putInt("recyclerPos", wordToTrack.getRecyclerPosition());
-                //putting data in the LocalState instead of ClipData
-                //in cause of troubles with recyclerView caching out-of-screen-view
-                //which leads to being not able to receive dragEnded here sometimes
-                //plus inability to temporary add dragging word to hovered on group
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    cardRoot.startDragAndDrop(null, shadowBuilder, bundle, 0);
-                } else {
-                    cardRoot.startDrag(null, shadowBuilder, bundle, 0);
-                }
-                cardRoot.setVisibility(View.INVISIBLE);
-                draggedWord = wordText.getText().toString();
-                return true;
+            cardRoot.setVisibility(View.INVISIBLE);
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(cardRoot);
+            WordToTrack wordToTrack = wordsToTrack.get(getAdapterPosition());
+            Bundle bundle = new Bundle();
+            bundle.putString("word", wordToTrack.getWord());
+            bundle.putString("group", wordToTrack.getGroupName());
+            bundle.putInt("pos", getAdapterPosition());
+            bundle.putBoolean("isTracked", wordToTrack.isTracked());
+            bundle.putInt("recyclerPos", wordToTrack.getRecyclerPosition());
+            //putting data in the LocalState instead of ClipData
+            //in cause of troubles with recyclerView caching out-of-screen-view
+            //which leads to being not able to receive dragEnded here sometimes
+            //plus inability to temporary add dragging word to hovered on group
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                cardRoot.startDragAndDrop(null, shadowBuilder, bundle, 0);
             } else {
-                showNotChangeableWordToast(R.string.cant_drag_word_toast_msg);
-                return false;
+                cardRoot.startDrag(null, shadowBuilder, bundle, 0);
             }
+            cardRoot.setVisibility(View.INVISIBLE);
+            draggedWord = wordText.getText().toString();
+            return true;
         }
 
         @OnClick(R.id.img_btn_tracking)
         public void trackingButtonOnClick() {
-            if (InitialDataUtils.isWordOnResearch(wordText.getText().toString())) {
-                showNotChangeableWordToast(R.string.cant_untrack_word_toast_msg);
-            } else {
-                WordToTrack wordToTrack = wordsToTrack.get(getAdapterPosition());
-                if (wordToTrack.isTracked()) {
-                    Context context = trackingButton.getContext();
-                    trackingButton.setColorFilter(
-                            ContextCompat.getColor(context, R.color.greyed_button), PorterDuff.Mode.SRC_ATOP);
-                } else
-                    trackingButton.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-                buttonsPanelListener.trackingButtonOnClick(wordToTrack);
-            }
+            WordToTrack wordToTrack = wordsToTrack.get(getAdapterPosition());
+            if (wordToTrack.isTracked()) {
+                Context context = trackingButton.getContext();
+                trackingButton.setColorFilter(
+                        ContextCompat.getColor(context, R.color.greyed_button), PorterDuff.Mode.SRC_ATOP);
+            } else
+                trackingButton.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+            buttonsPanelListener.trackingButtonOnClick(wordToTrack);
         }
 
         @OnClick(R.id.img_btn_notify)
@@ -234,15 +216,11 @@ public class WordsRecyclerAdapter extends RecyclerView.Adapter {
 
         @OnClick(R.id.img_btn_delete)
         public void deleteButtonOnClick() {
-            if (InitialDataUtils.isWordOnResearch(wordText.getText().toString())) {
-                showNotChangeableWordToast(R.string.cant_delete_word_toast_msg);
-            } else {
-                int pos = getAdapterPosition();
-                buttonsPanelListener.deleteButtonOnClick(
-                        pos, wordsToTrack.get(getAdapterPosition()));
-                wordsToTrack.remove(pos);
-                notifyItemRemoved(pos);
-            }
+            int pos = getAdapterPosition();
+            buttonsPanelListener.deleteButtonOnClick(
+                    pos, wordsToTrack.get(getAdapterPosition()));
+            wordsToTrack.remove(pos);
+            notifyItemRemoved(pos);
         }
     }
 }

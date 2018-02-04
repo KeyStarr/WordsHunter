@@ -30,7 +30,6 @@ class ModelsToContentValuesMapper {
         values.put(DaysTable.COLUMN_NAME_DATE, dayDtb.getDate());
         values.put(DaysTable.COLUMN_NAME_WORDS_TYPED_COUNTER, dayDtb.getWordsTypedCounter());
         values.put(DaysTable.COLUMN_NAME_WEEK_IN_YEAR, dayDtb.getWeekInYear());
-        values.put(DaysTable.COLUMN_NAME_SENT, dayDtb.isSent());
         return values;
     }
 

@@ -45,7 +45,6 @@ public class GroupsRecyclerAdapter extends RecyclerView.Adapter {
     private HashMap<String, WordsRecyclerAdapter> wordsAdaptersMap;
     private Bus bus;
     private DatabaseRepository dtbRepo;
-    private Toast groupNotChangeableToast;
 
     public GroupsRecyclerAdapter(Context context, List<WordsGroupToTrack> groupsToTrack,
                                  ButtonsPanelListener buttonsPanelListener,
@@ -196,14 +195,6 @@ public class GroupsRecyclerAdapter extends RecyclerView.Adapter {
             return (WordsRecyclerAdapter) wordsRecyclerView.getAdapter();
         }
 
-        private void showNotChangeableWordToast(int msgResId) {
-            if (groupNotChangeableToast != null)
-                groupNotChangeableToast.cancel();
-            Context context = rootLayout.getRootView().getContext();
-            groupNotChangeableToast = Toast.makeText(context, msgResId, Toast.LENGTH_LONG);
-            groupNotChangeableToast.show();
-        }
-
         @OnClick(R.id.overflow)
         public void overflowButtonOnClick() {
             expandableButtonsLayout.toggle();
@@ -227,14 +218,10 @@ public class GroupsRecyclerAdapter extends RecyclerView.Adapter {
 
         @OnClick(R.id.img_btn_delete)
         public void deleteButtonOnClick() {
-            if (!InitialDataUtils.isGroupOnResearch(groupText.getText().toString())) {
-                int pos = getAdapterPosition();
-                buttonsPanelListener.deleteButtonOnClick(pos, groupsToTrack.get(pos));
-                groupsToTrack.remove(pos);
-                notifyItemRemoved(getAdapterPosition());
-            } else {
-                showNotChangeableWordToast(R.string.cant_delete_group_toast_msg);
-            }
+            int pos = getAdapterPosition();
+            buttonsPanelListener.deleteButtonOnClick(pos, groupsToTrack.get(pos));
+            groupsToTrack.remove(pos);
+            notifyItemRemoved(getAdapterPosition());
         }
     }
 }

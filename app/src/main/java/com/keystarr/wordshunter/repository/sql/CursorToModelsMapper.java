@@ -33,7 +33,6 @@ public class CursorToModelsMapper {
         if (cursor.moveToNext()) {
             int dateInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_DATE),
                     weekInYearInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_WEEK_IN_YEAR),
-                    sentInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_SENT),
                     typedCounterInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_WORDS_TYPED_COUNTER),
                     groupNameInd = cursor.getColumnIndex(WordsCountersGroupsTable.COLUMN_NAME_NAME),
                     wordInd = cursor.getColumnIndex(WordCounterTable.COLUMN_NAME_WORD),
@@ -41,8 +40,8 @@ public class CursorToModelsMapper {
                     isTrackedInd = cursor.getColumnIndex(WordCounterTable.COLUMN_NAME_IS_TRACKED);
             long previousDate = cursor.getLong(dateInd);
             int wordsTypedCounter = cursor.getInt(typedCounterInd);
-            DayDtb tempDay = DayDtb.createForRetrieve(previousDate, cursor.getInt(weekInYearInd),
-                    cursor.getInt(sentInd) == 1, wordsTypedCounter);
+            DayDtb tempDay = DayDtb.createForRetrieve(previousDate,
+                    cursor.getInt(weekInYearInd), wordsTypedCounter);
             WordsCountersGroup tempGroup = WordsCountersGroup.create(cursor.getString(groupNameInd));
             tempGroup.getWordsCountersList().add(new WordCounter(
                     cursor.getString(wordInd), cursor.getInt(wordCountInd), cursor.getInt(isTrackedInd) == 1));
@@ -53,8 +52,8 @@ public class CursorToModelsMapper {
                     tempDay.getWordsCountersGroupsList().add(tempGroup);
                     daysList.add(tempDay);
                     previousDate = currentDate;
-                    tempDay = DayDtb.createForRetrieve(previousDate, cursor.getInt(weekInYearInd),
-                            cursor.getInt(sentInd) == 1, wordsTypedCounter);
+                    tempDay = DayDtb.createForRetrieve(previousDate,
+                            cursor.getInt(weekInYearInd), wordsTypedCounter);
                     tempGroup = WordsCountersGroup.create(cursor.getString(groupNameInd));
                     tempGroup.getWordsCountersList().add(new WordCounter(
                             cursor.getString(wordInd), cursor.getInt(wordCountInd), cursor.getInt(isTrackedInd) == 1));
@@ -81,15 +80,14 @@ public class CursorToModelsMapper {
         if (cursor.moveToNext()) {
             int dateInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_DATE),
                     weekInYearInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_WEEK_IN_YEAR),
-                    sentInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_SENT),
                     typedCounterInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_WORDS_TYPED_COUNTER),
                     groupIdInd = cursor.getColumnIndex(WordsCountersGroupsTable.COLUMN_NAME_ID),
                     groupNameInd = cursor.getColumnIndex(WordsCountersGroupsTable.COLUMN_NAME_NAME),
                     wordInd = cursor.getColumnIndex(WordCounterTable.COLUMN_NAME_WORD),
                     wordCountInd = cursor.getColumnIndex(WordCounterTable.COLUMN_NAME_COUNT),
                     isTrackedInd = cursor.getColumnIndex(WordCounterTable.COLUMN_NAME_IS_TRACKED);
-            day = DayDtb.createForRetrieve(cursor.getLong(dateInd), cursor.getInt(weekInYearInd),
-                    cursor.getInt(sentInd) == 1, cursor.getInt(typedCounterInd));
+            day = DayDtb.createForRetrieve(cursor.getLong(dateInd),
+                    cursor.getInt(weekInYearInd),cursor.getInt(typedCounterInd));
             WordsCountersGroup tempGroup = WordsCountersGroup.create(
                     cursor.getLong(groupIdInd), cursor.getString(groupNameInd));
             tempGroup.getWordsCountersList().add(new WordCounter(
@@ -119,10 +117,9 @@ public class CursorToModelsMapper {
         if (cursor.moveToNext()) {
             int dateInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_DATE),
                     weekInYearInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_WEEK_IN_YEAR),
-                    sentInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_SENT),
                     typedCounterInd = cursor.getColumnIndex(DaysTable.COLUMN_NAME_WORDS_TYPED_COUNTER);
-            day = DayDtb.createForRetrieve(cursor.getLong(dateInd), cursor.getInt(weekInYearInd),
-                    cursor.getInt(sentInd) == 1, cursor.getInt(typedCounterInd));
+            day = DayDtb.createForRetrieve(cursor.getLong(dateInd),
+                    cursor.getInt(weekInYearInd), cursor.getInt(typedCounterInd));
         }
         return day;
     }
