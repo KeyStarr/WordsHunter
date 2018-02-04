@@ -272,7 +272,7 @@ public class WordsHunterService extends AccessibilityService {
     private void countTheLastWord(String message){
         StringBuilder word = new StringBuilder();
         char c = 0;
-        for (int i = message.length() - 2; c != ' '; i--){
+        for (int i = message.length() - 2; c != ' ' && i >= 0; i--){
             c = message.charAt(i);
             word.append(c);
         }

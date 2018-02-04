@@ -242,7 +242,8 @@ public class DatabaseRepositorySQLite implements DatabaseRepository {
     private DayDtb getEmptyDay(long date) {
         Cursor cursor = database.query(
                 DaysTable.TABLE_NAME,
-                new String[]{DaysTable.COLUMN_NAME_DATE, DaysTable.COLUMN_NAME_WEEK_IN_YEAR, DaysTable.COLUMN_NAME_SENT},
+                new String[]{DaysTable.COLUMN_NAME_DATE, DaysTable.COLUMN_NAME_WEEK_IN_YEAR,
+                        DaysTable.COLUMN_NAME_WORDS_TYPED_COUNTER, DaysTable.COLUMN_NAME_SENT},
                 DaysTable.COLUMN_NAME_DATE + " = ?",
                 new String[]{String.valueOf(date)},
                 null, null, null);
