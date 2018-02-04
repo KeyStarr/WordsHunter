@@ -440,26 +440,54 @@ public class StatsChartListFragment extends Fragment {
         }
     }
 
+    /**
+     * This method sets a callback on the scrolling event of the line chart on the stats screen.
+     */
     private void setChartScrollingFeature() {
+        //Unfortunately there is no way to set only ONE callback, only all
         lineChart.setOnChartGestureListener(new OnChartGestureListener() {
-            //Unfortunately there is no way to set only ONE callback, only all
+
+            /**
+             * Chart's viewport position on a previous
+             * {@link #onChartTranslate(MotionEvent, float, float)} callback
+             */
             private float dXPrevious = 9999999;
+
+            /**
+             * Counts how many times chart was scrolled with a speed of {@link #dXScrollSlowBorder} pixels
+             * It is needed because through the tests i caught a situation when due to some trouble
+             * chart scrolled on a high speed at one moment showed a speed lower than 20.
+             * So now i'm checking for the slow speed condition to be caught at least 2 times
+             */
             private int times = 0;
+
+            /**
+             * A distinction between the chart's viewport position on a current and previous
+             * callback of the {@link #onChartTranslate(MotionEvent, float, float)}
+             * (in other words - chart's scrolling speed) which determines when chart
+             * is scrolling in a very slow fashion and begins to settle down.
+             */
             private int dXScrollSlowBorder = 10;
+
+
+            /**
+             * Determines whether a user completed scrolling gesture on the chart.
+             * If he did, then chart's scrolling speed decreases and it is settling down.
+             */
+            private boolean isStopping = false;
 
             @Override
             public void onChartTranslate(MotionEvent me, float dX, float dY) {
-                //TODO: check a bug for API 16-17
-                //bug when before centerviewtoanimated lag spike appears
+                //Chart when scrolled is stuttering on API 15-16
+                if (!isStopping)
+                    return;
                 if (Math.abs(dX - dXPrevious) < dXScrollSlowBorder) {
                     times++;
                 }
                 dXPrevious = dX;
                 if (times > 2) {
-                    //TODO: make a timer for cooldown on list refreshing
                     float xCenter = lineChart.getLowestVisibleX() + lineChart.getVisibleXRange() / 2;
                     int roundedXCenter = Math.round(xCenter);
-                    times = 0;
                     if (roundedXCenter <= 0)
                         roundedXCenter = 1;
                     else if (statsDateRangeMode == MODE_BY_DAYS
@@ -476,6 +504,8 @@ public class StatsChartListFragment extends Fragment {
                         updateListByDay(dayDtb);
                     else if (statsDateRangeMode == MODE_BY_WEEKS)
                         updateListByWeek(weeksList.get(roundedXCenter - 1));
+                    times = 0;
+                    isStopping = false;
                 }
             }
 
@@ -485,10 +515,13 @@ public class StatsChartListFragment extends Fragment {
 
             @Override
             public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+                if (lastPerformedGesture == ChartTouchListener.ChartGesture.DRAG)
+                    isStopping = true;
             }
 
             @Override
             public void onChartLongPressed(MotionEvent me) {
+
             }
 
             @Override
