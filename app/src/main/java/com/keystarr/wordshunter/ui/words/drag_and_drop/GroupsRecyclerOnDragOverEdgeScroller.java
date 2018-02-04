@@ -41,9 +41,10 @@ public class GroupsRecyclerOnDragOverEdgeScroller {
         @Override
         public void run() {
             int dir = 0;
-            if (dragTouchY > recyclerView.getBottom() - 99) {
+            float dragRelativePos = (recyclerView.getBottom() - dragTouchY)/recyclerView.getBottom();
+            if (dragRelativePos < 0.2) {
                 dir = 1;
-            } else if (dragTouchY < recyclerView.getTop() + 99)
+            } else if (dragRelativePos > 0.9)
                 dir = -1;
             if (dir != 0) {
                 recyclerView.scrollBy(0, dir * 8);
