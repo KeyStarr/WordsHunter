@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.keystarr.wordshunter.app.App;
 import com.keystarr.wordshunter.models.local.DayDtb;
 import com.keystarr.wordshunter.models.local.WordCounter;
@@ -59,16 +57,8 @@ public class SendStatsBroadcastReceiver extends BroadcastReceiver {
         if (!unsentDays.isEmpty()) {
             SendDaysStatsAsyncTask sendDaysAsyncTask = new SendDaysStatsAsyncTask();
             sendDaysAsyncTask.execute();
-        } else {
-            logSendingStateToCrashlytics("No days to send.");
         }
         prefsRepo.setSendDaysReceiverCalledLast(Instant.now().toEpochMilli());
-    }
-
-    private void logSendingStateToCrashlytics(String state) {
-        Answers.getInstance()
-                .logCustom(new CustomEvent(state)
-                        .putCustomAttribute("userID", prefsRepo.getUserId()));
     }
 
     private class SendDaysStatsAsyncTask extends AsyncTask<Void, Void, Boolean> {
@@ -103,13 +93,10 @@ public class SendStatsBroadcastReceiver extends BroadcastReceiver {
                     if (unsentDays.size() > 10) {
                         WifiManager wifi = (WifiManager)
                                 context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                        if (wifi.isWifiEnabled()) {
+                        if (wifi.isWifiEnabled())
                             sendDaysToServer(unsentDays);
-                        } else {
-                            logSendingStateToCrashlytics(
-                                    "Sending postponed - " + unsentDays.size() + " days to send, no wifi");
+                        else
                             increaseReceiverCallsFrequency = true;
-                        }
                     } else
                         sendDaysToServer(unsentDays);
                 } else {
@@ -117,7 +104,6 @@ public class SendStatsBroadcastReceiver extends BroadcastReceiver {
                     increaseReceiverCallsFrequency = true;
                 }
             } else {
-                logSendingStateToCrashlytics("Sending postponed - no internet ");
                 increaseReceiverCallsFrequency = true;
             }
             if (wasHighFrequency != increaseReceiverCallsFrequency) {
@@ -140,18 +126,12 @@ public class SendStatsBroadcastReceiver extends BroadcastReceiver {
                             prefsRepo.setUserGender(false);
                             prefsRepo.setUserAge(0);
                             prefsRepo.setUserId(userID);
-                            logSendingStateToCrashlytics("UserId was successfully acquired");
-                        } else {
-                            logSendingStateToCrashlytics("UserId request failed - call was successful, body is null.");
                         }
-                    } else {
-                        logSendingStateToCrashlytics("UserId request failed - server returned error code");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Long> call, Throwable t) {
-                    logSendingStateToCrashlytics("userID request failed - on behalf of the client.");
                     t.printStackTrace();
                 }
             });
@@ -164,18 +144,14 @@ public class SendStatsBroadcastReceiver extends BroadcastReceiver {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
-                        logSendingStateToCrashlytics("Sending daysStats - sent successfully.");
                         for (DayDtb day : unsentDays)
                             day.setSent(true);
                         dtbRepo.updateDays(unsentDays);
-                    } else {
-                        logSendingStateToCrashlytics("Sending stats - fail, server returned error code.");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
-                    logSendingStateToCrashlytics("Sending stats - request failed on the client's behalf.");
                     t.printStackTrace();
                 }
             });

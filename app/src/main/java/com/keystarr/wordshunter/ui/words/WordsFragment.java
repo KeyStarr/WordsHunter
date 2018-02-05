@@ -20,8 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.keystarr.wordshunter.R;
 import com.keystarr.wordshunter.app.App;
 import com.keystarr.wordshunter.models.events.GroupAddedEvent;
@@ -297,8 +295,6 @@ public class WordsFragment extends Fragment implements ButtonsPanelListener, Gro
 
     @Subscribe
     public void onWordAdded(WordAddedEvent event) {
-        Answers.getInstance().logCustom(new CustomEvent("Word added"));
-
         WordToTrack wordToTrack = event.getAddedWordToTrack();
         dtbRepo.insert(wordToTrack);
         GroupsRecyclerAdapter groupsAdapter =
@@ -314,8 +310,6 @@ public class WordsFragment extends Fragment implements ButtonsPanelListener, Gro
 
     @Subscribe
     public void onGroupAdded(GroupAddedEvent event) {
-        Answers.getInstance().logCustom(new CustomEvent("Group added"));
-
         dtbRepo.insert(event.getAddedGroupToTrack());
 
         //insert word into the adapter to display it
@@ -338,8 +332,6 @@ public class WordsFragment extends Fragment implements ButtonsPanelListener, Gro
 
     @Subscribe
     public void onLimiterNotificationAdded(LimiterAddedEvent event) {
-        Answers.getInstance().logCustom(new CustomEvent("Limiter added"));
-
         dtbRepo.insert(event.getLimiter());
         showLimiterStateChangedSnackbar(event.getLimiter().getLimitedWord(), 0);
         toggleNotificationsButtonAppearence(event);
@@ -347,14 +339,12 @@ public class WordsFragment extends Fragment implements ButtonsPanelListener, Gro
 
     @Subscribe
     public void onLimiterNotificationChanged(LimiterChangedEvent event) {
-        Answers.getInstance().logCustom(new CustomEvent("Limiter changed"));
         dtbRepo.update(event.getChangedLimiter());
         showLimiterStateChangedSnackbar(event.getChangedLimiter().getLimitedWord(), 1);
     }
 
     @Subscribe
     public void onLimiterNotificationDeleted(LimiterDeletedEvent event) {
-        Answers.getInstance().logCustom(new CustomEvent("Limiter deleted"));
         dtbRepo.delete(event.getLimiter());
         showLimiterStateChangedSnackbar(event.getLimiter().getLimitedWord(), 2);
         toggleNotificationsButtonAppearence(event);
@@ -390,7 +380,6 @@ public class WordsFragment extends Fragment implements ButtonsPanelListener, Gro
 
     @Override
     public void trackingButtonOnClick(WordToTrack wordToTrack) {
-        Answers.getInstance().logCustom(new CustomEvent("Tracking click"));
         wordToTrack.setTracked(!wordToTrack.isTracked());
         dtbRepo.update(wordToTrack);
         if (wordToTrack.isTracked())

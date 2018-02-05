@@ -48,7 +48,7 @@ public class AppModule {
     @Singleton
     public StatsReceiverAPI provideStatsReceiverAPI() {
         return new Retrofit.Builder()
-                .baseUrl(LINK_TO_SERVER)
+                .baseUrl("LINK_TO_SERVER")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(StatsReceiverAPI.class);

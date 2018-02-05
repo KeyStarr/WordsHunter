@@ -15,8 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -173,8 +171,6 @@ public class StatsChartListFragment extends Fragment {
 
     @Subscribe
     public void dateRangeChanged(DateRangeChangedEvent event) {
-        Answers.getInstance().logCustom(new CustomEvent("Date range changed")
-                .putCustomAttribute("date mode", event.getMode()));
         switch (event.getMode()) {
             case MODE_BY_DAYS:
                 if (statsDateRangeMode != MODE_BY_DAYS) {

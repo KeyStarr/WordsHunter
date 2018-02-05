@@ -9,8 +9,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.keystarr.wordshunter.R;
 import com.keystarr.wordshunter.app.App;
 import com.keystarr.wordshunter.models.events.GroupRemovedEvent;
@@ -306,12 +304,6 @@ public class WordsHunterService extends AccessibilityService {
         //but if it happens, then the whole system is compromised and we are obliged to fix it
         if (currentWordsCountersGroups.size() != bufferedWordsCountersGroups.size()) {
             bufferedWordsCountersGroups = currentWordsCountersGroups;
-            Answers.getInstance().logCustom(
-                    new CustomEvent("WordsHunterService => analyze text => " +
-                            "buffered and current groups list size mismatch")
-                            .putCustomAttribute("BufferedWordCountersList size", currentWordsCountersGroups.size())
-                            .putCustomAttribute("CurrentWordCountersList size", bufferedWordsCountersGroups.size())
-                            .putCustomAttribute("Day wordGroupsList size", dayDtb.getWordsCountersGroupsList().size()));
             return;
         }
 
@@ -325,13 +317,6 @@ public class WordsHunterService extends AccessibilityService {
             //the meaning and the aids to fix it are the same as described above
             if (currentWordsCountersList.size() != bufferedWordsCountersList.size()) {
                 bufferedWordsCountersGroups = currentWordsCountersGroups;
-                Answers.getInstance().logCustom(
-                        new CustomEvent("WordsHunterService => analyze text => " +
-                                "buffered and current counters list size mismatch")
-                                .putCustomAttribute("BufferedWordCountersList size", bufferedWordsCountersList.size())
-                                .putCustomAttribute("CurrentWordCountersList size", currentWordsCountersList.size())
-                                .putCustomAttribute("Day wordCounters size",
-                                        dayDtb.getWordsCountersGroupsList().get(i).getWordsCountersList().size()));
                 return;
             }
 
